@@ -38,3 +38,6 @@ i-moutai:
     aes-key: qbhajinldepmucsonaaaccgypwuvcjaa
     aes-iv: 2018534749963515
     app-version: 1.6.5
+logging:
+  file:
+    name: /var/log/fuck-imoutai.log

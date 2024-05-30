@@ -35,8 +35,22 @@ public class MoutaiHandler {
         log.info("===== End to refresh metadata on {} =====", OffsetDateTime.now());
     }
 
+    // 每晚 9 点执行
     @Async
-    @Scheduled(cron = "21 5 9 * * ?")
+    @Scheduled(cron = "0 0 21 * * ?")
+    public void generateAllReserveTime() {
+        log.info("===== Start to generate appointment time on {} =====", OffsetDateTime.now());
+        try {
+            moutaiService.generateAllReserveTime();
+        } catch (Exception e) {
+            log.error("Failed to generate appointment time", e);
+        }
+        log.info("===== End to generate appointment time on {} =====", OffsetDateTime.now());
+    }
+
+    // 每天 9 点 - 10 点 一分钟执行一次
+    @Async
+    @Scheduled(cron = "0 0/1 9 * * ?")
     public void reserveAllUser() {
         log.info("===== Start to reserve all user on {} =====", OffsetDateTime.now());
         try {

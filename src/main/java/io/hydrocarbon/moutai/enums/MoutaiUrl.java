@@ -1,9 +1,9 @@
 package io.hydrocarbon.moutai.enums;
 
+import io.hydrocarbon.moutai.constant.Constants;
 import org.springframework.http.HttpMethod;
 
 import java.time.LocalDate;
-import java.time.ZoneOffset;
 
 /**
  * @author Zou Zhenfeng
@@ -49,7 +49,7 @@ public enum MoutaiUrl {
         if (this == ITEM_URL) {
             return url + LocalDate.now()
                     .atStartOfDay()
-                    .toInstant(ZoneOffset.of("+8"))
+                    .toInstant(Constants.SHANGHAI_OFFSET)
                     .toEpochMilli();
         }
 

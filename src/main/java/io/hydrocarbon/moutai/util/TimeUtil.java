@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 /**
  * @author Zou Zhenfeng
@@ -16,6 +17,8 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Slf4j
 public final class TimeUtil {
+
+    private static final Random RANDOM = new Random();
 
     private static final DateTimeFormatter HH_MM_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -35,5 +38,14 @@ public final class TimeUtil {
 
     public static Long nowTimestamp() {
         return OffsetDateTime.now().toInstant().toEpochMilli();
+    }
+
+    public static OffsetDateTime randomNextReserveTime() {
+        OffsetDateTime nextDateTime = OffsetDateTime.now().plusDays(1);
+
+        int hour = 9;
+        // 1 - 58 分钟
+        int minute = RANDOM.nextInt(58) + 1;
+        return nextDateTime.withHour(hour).withMinute(minute).withSecond(0).withNano(0);
     }
 }

@@ -1,0 +1,34 @@
+name: fuck-imoutai
+
+services:
+  mysql-lts:
+    image: mysql:lts
+    container_name: MySQL-LTS
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD: 1352467890
+      - MYSQL_DATABASE: hydrocarbon
+      - MYSQL_USER: hydrocarbon
+      - MYSQL_PASSWORD: 1352467890
+    volumes:
+      - mysql-lts:/var/lib/mysql
+    networks:
+      - hydro
+
+  backend:
+    image: example/database
+    container_name: Fuck-iMoutai-Backend
+    restart: unless-stopped
+    depends_on: mysql-lts
+    ports:
+      - "8080:8080"
+    networks:
+      - hydro
+
+networks:
+  hydro:
+    name: hydro
+    external: false
+    driver: bridge

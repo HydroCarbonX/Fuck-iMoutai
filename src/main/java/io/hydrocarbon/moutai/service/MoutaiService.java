@@ -3,6 +3,7 @@ package io.hydrocarbon.moutai.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.hydrocarbon.moutai.constant.Constants;
 import io.hydrocarbon.moutai.entity.moutai.*;
+import io.hydrocarbon.moutai.enums.MoutaiReserveStatus;
 import io.hydrocarbon.moutai.enums.MoutaiUrl;
 import io.hydrocarbon.moutai.param.Response;
 import io.hydrocarbon.moutai.param.moutai.QueryMoutaiUserParam;
@@ -28,7 +29,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.time.Duration;
+import java.time.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -52,6 +53,8 @@ public class MoutaiService {
     private final MoutaiAppointmentRepository moutaiAppointmentRepository;
 
     private final MoutaiConfigRepository moutaiConfigRepository;
+
+    private final MoutaiAppointmentRecordRepository moutaiAppointmentRecordRepository;
 
     /**
      * 发送验证码
@@ -244,10 +247,39 @@ public class MoutaiService {
      * @return 是否预约成功
      */
     public boolean reserveAll() {
-        List<Long> allUserIdList = moutaiUserRepository.findAll().stream()
-                .map(MoutaiUser::getId)
+        Specification<MoutaiAppointmentRecord> specification = (root, query, criteriaBuilder) -> {
+            // 未删除
+            Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(root.get("isDeleted"), false));
+            // 预约状态为等待
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("reserveStatus"),
+                    MoutaiReserveStatus.WAITING));
+            // 时间为今天起始时间之后的
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.greaterThanOrEqualTo(root.get("reserveTime"),
+                    OffsetDateTime.of(LocalDate.now(), LocalTime.MIN, Constants.SHANGHAI_OFFSET)));
+            return predicate;
+        };
+
+        List<MoutaiAppointmentRecord> appointmentRecordList = moutaiAppointmentRecordRepository.findAll(specification);
+
+        if (CollectionUtils.isEmpty(appointmentRecordList)) {
+            log.warn("appointmentRecordList is null or empty, not reserve");
+            return false;
+        }
+
+        List<Long> reserveUserIdList = appointmentRecordList.stream()
+                .map(MoutaiAppointmentRecord::getMoutaiUserId)
                 .toList();
-        return reserve(allUserIdList);
+
+        // 预约对应的用户
+        boolean success = reserve(reserveUserIdList);
+        if (success) {
+            // 更新预约状态
+            appointmentRecordList.forEach(moutaiAppointmentRecord -> {
+                moutaiAppointmentRecord.setReserveStatus(MoutaiReserveStatus.SUCCESS);
+                moutaiAppointmentRecordRepository.save(moutaiAppointmentRecord);
+            });
+        }
+        return success;
     }
 
     /**
@@ -271,6 +303,29 @@ public class MoutaiService {
         }
 
         return true;
+    }
+
+    /**
+     * 为所有用户生成预约时间
+     */
+    public void generateAllReserveTime() {
+        // 1. 查出所有的用户
+        List<MoutaiUser> moutaiUserList = moutaiUserRepository.findAll();
+
+        // 2. 遍历用户，为每个用户生成随机预约时间（早上 9 点 - 10 点内）
+        List<MoutaiAppointmentRecord> list = moutaiUserList.stream()
+                .map(user -> {
+                    MoutaiAppointmentRecord moutaiAppointmentRecord = new MoutaiAppointmentRecord();
+                    moutaiAppointmentRecord.setMoutaiUserId(user.getId());
+                    // 生成随机预约时间
+                    moutaiAppointmentRecord.setReserveTime(TimeUtil.randomNextReserveTime());
+                    moutaiAppointmentRecord.setReserveStatus(MoutaiReserveStatus.WAITING);
+                    return moutaiAppointmentRecord;
+                })
+                .toList();
+
+        // 3. 保存数据
+        moutaiAppointmentRecordRepository.saveAll(list);
     }
 
     /**

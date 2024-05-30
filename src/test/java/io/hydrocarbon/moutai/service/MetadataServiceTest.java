@@ -14,8 +14,16 @@ class MetadataServiceTest {
     @Resource
     private MetadataService metadataService;
 
+    @Resource
+    private MoutaiService moutaiService;
+
     @Test
     void testSaveItemList() {
         metadataService.refreshMetadata();
+    }
+
+    @Test
+    void reserveAll() {
+        moutaiService.reserveAll();
     }
 }
