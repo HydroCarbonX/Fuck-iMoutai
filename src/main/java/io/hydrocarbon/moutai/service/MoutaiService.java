@@ -246,7 +246,15 @@ public class MoutaiService {
      *
      * @return 是否预约成功
      */
-    public boolean reserveAll() {
+    public boolean reserveAll(boolean reserveAll) {
+        if (reserveAll) {
+            List<Long> allUserIdList = moutaiUserRepository.findAll().stream()
+                    .map(MoutaiUser::getId)
+                    .toList();
+
+            return reserve(allUserIdList);
+        }
+
         Specification<MoutaiAppointmentRecord> specification = (root, query, criteriaBuilder) -> {
             // 未删除
             Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(root.get("isDeleted"), false));

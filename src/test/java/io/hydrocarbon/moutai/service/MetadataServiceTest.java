@@ -1,6 +1,7 @@
 package io.hydrocarbon.moutai.service;
 
 import jakarta.annotation.Resource;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -18,12 +19,15 @@ class MetadataServiceTest {
     private MoutaiService moutaiService;
 
     @Test
-    void testSaveItemList() {
-        metadataService.refreshMetadata();
+    void testRefreshMetadata() {
+        // 无异常
+        Assertions.assertDoesNotThrow(() -> metadataService.refreshMetadata());
     }
 
     @Test
     void reserveAll() {
-        moutaiService.reserveAll();
+        boolean result = moutaiService.reserveAll(true);
+
+        Assertions.assertTrue(result);
     }
 }

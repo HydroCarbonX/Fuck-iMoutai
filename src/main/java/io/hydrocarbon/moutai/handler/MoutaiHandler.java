@@ -54,7 +54,7 @@ public class MoutaiHandler {
     public void reserveAllUser() {
         log.info("===== Start to reserve all user on {} =====", OffsetDateTime.now());
         try {
-            boolean success = moutaiService.reserveAll();
+            boolean success = moutaiService.reserveAll(false);
             if (!success) {
                 log.error("Failed to reserve all user");
             }
