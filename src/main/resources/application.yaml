@@ -3,12 +3,12 @@ spring:
     name: Fuck-iMoutai
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.97.75.238:3306/fuck_moutai?timezone=Asia/Shanghai
+    url: jdbc:mysql://47.97.75.238:3306/fuck_moutai?timezone=Asia/Shanghai&connectionTimeZone=Asia/Shanghai
     username: hydrocarbon
     password: 1352467890
     hikari:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://47.97.75.238:3306/fuck_moutai?timezone=Asia/Shanghai
+      jdbc-url: jdbc:mysql://47.97.75.238:3306/fuck_moutai?timezone=Asia/Shanghai&connectionTimeZone=Asia/Shanghai
       username: hydrocarbon
       password: 1352467890
       auto-commit: true
@@ -28,6 +28,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        jdbc:
+          time-zone: Asia/Shanghai
     show-sql: false
     open-in-view: false
 
