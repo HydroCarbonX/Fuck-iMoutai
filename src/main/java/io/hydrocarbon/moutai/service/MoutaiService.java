@@ -264,6 +264,9 @@ public class MoutaiService {
             // 时间为今天起始时间之后的
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.greaterThanOrEqualTo(root.get("reserveTime"),
                     OffsetDateTime.of(LocalDate.now(), LocalTime.MIN, Constants.SHANGHAI_OFFSET)));
+            // 时间为现在之前的
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.lessThanOrEqualTo(root.get("reserveTime"),
+                    OffsetDateTime.now()));
             return predicate;
         };
 
@@ -271,7 +274,7 @@ public class MoutaiService {
 
         if (CollectionUtils.isEmpty(appointmentRecordList)) {
             log.warn("appointmentRecordList is null or empty, not reserve");
-            return false;
+            return true;
         }
 
         List<Long> reserveUserIdList = appointmentRecordList.stream()

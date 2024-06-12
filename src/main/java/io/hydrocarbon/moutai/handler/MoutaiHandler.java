@@ -48,9 +48,9 @@ public class MoutaiHandler {
         log.info("===== End to generate appointment time on {} =====", OffsetDateTime.now());
     }
 
-    // 每天 9 点 - 10 点 一分钟执行一次
+    // 每天 9 点 - 10 点 五分钟执行一次
     @Async
-    @Scheduled(cron = "0 0/1 9 * * ?")
+    @Scheduled(cron = "0 0/5 9 * * ?")
     public void reserveAllUser() {
         log.info("===== Start to reserve all user on {} =====", OffsetDateTime.now());
         try {
