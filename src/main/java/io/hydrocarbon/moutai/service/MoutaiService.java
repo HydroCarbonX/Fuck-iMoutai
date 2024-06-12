@@ -244,6 +244,7 @@ public class MoutaiService {
     /**
      * 预约所有用户
      *
+     * @param reserveAll 是否预约所有用户
      * @return 是否预约成功
      */
     public boolean reserveAll(boolean reserveAll) {
