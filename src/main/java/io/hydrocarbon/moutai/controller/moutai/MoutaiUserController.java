@@ -2,10 +2,10 @@ package io.hydrocarbon.moutai.controller.moutai;
 
 import io.hydrocarbon.moutai.entity.moutai.MoutaiUser;
 import io.hydrocarbon.moutai.param.Response;
-import io.hydrocarbon.moutai.param.moutai.QueryMoutaiUserParam;
-import io.hydrocarbon.moutai.param.moutai.request.MoutaiUserAddRequest;
-import io.hydrocarbon.moutai.param.moutai.request.MoutaiUserModifyRequest;
-import io.hydrocarbon.moutai.param.moutai.response.MoutaiUserResponse;
+import io.hydrocarbon.moutai.param.request.moutai.QueryMoutaiUserParam;
+import io.hydrocarbon.moutai.param.request.moutai.MoutaiUserAddRequest;
+import io.hydrocarbon.moutai.param.request.moutai.MoutaiUserModifyRequest;
+import io.hydrocarbon.moutai.param.response.moutai.MoutaiUserResponse;
 import io.hydrocarbon.moutai.service.MoutaiService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

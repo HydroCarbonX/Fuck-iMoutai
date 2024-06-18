@@ -1,4 +1,4 @@
-package io.hydrocarbon.moutai.param.moutai.request;
+package io.hydrocarbon.moutai.param.request.moutai;
 
 import lombok.Data;
 

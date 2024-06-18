@@ -44,8 +44,8 @@ public final class TimeUtil {
         OffsetDateTime nextDateTime = OffsetDateTime.now().plusDays(1);
 
         int hour = 9;
-        // 1 - 58 分钟
-        int minute = RANDOM.nextInt(58) + 1;
+        // 1 - 50 分钟
+        int minute = RANDOM.nextInt(50) + 1;
         return nextDateTime.withHour(hour).withMinute(minute).withSecond(0).withNano(0);
     }
 }

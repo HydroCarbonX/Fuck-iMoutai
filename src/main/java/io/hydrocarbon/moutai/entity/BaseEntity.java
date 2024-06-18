@@ -1,6 +1,9 @@
 package io.hydrocarbon.moutai.entity;
 
-import jakarta.persistence.*;
+import io.hydrocarbon.moutai.generator.ShortUUID;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,7 +25,7 @@ import java.util.Objects;
 @SQLRestriction("is_deleted = FALSE")
 public abstract class BaseEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ShortUUID(name = "id")
     @Column(columnDefinition = "BIGINT UNSIGNED", nullable = false, updatable = false)
     private Long id;
 
@@ -63,7 +66,11 @@ public abstract class BaseEntity implements Serializable {
         Class<?> thisEffectiveClass = this instanceof HibernateProxy hibernateProxy
                 ? hibernateProxy.getHibernateLazyInitializer().getPersistentClass()
                 : this.getClass();
-        if (thisEffectiveClass != oEffectiveClass) return false;
+
+        if (thisEffectiveClass != oEffectiveClass) {
+            return false;
+        }
+
         BaseEntity that = (BaseEntity) obj;
         return getId() != null && Objects.equals(getId(), that.getId());
     }

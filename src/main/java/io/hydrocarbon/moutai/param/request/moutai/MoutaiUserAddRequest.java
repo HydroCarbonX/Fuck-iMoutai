@@ -1,7 +1,7 @@
-package io.hydrocarbon.moutai.param.moutai.request;
+package io.hydrocarbon.moutai.param.request.moutai;
 
 import io.hydrocarbon.moutai.entity.moutai.MoutaiUser;
-import io.hydrocarbon.moutai.param.moutai.response.LoginResponse;
+import io.hydrocarbon.moutai.param.response.moutai.LoginResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 

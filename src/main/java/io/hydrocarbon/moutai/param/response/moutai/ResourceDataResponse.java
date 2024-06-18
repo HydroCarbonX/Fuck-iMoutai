@@ -1,4 +1,4 @@
-package io.hydrocarbon.moutai.param.moutai.response;
+package io.hydrocarbon.moutai.param.response.moutai;
 
 import lombok.Data;
 

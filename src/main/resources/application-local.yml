@@ -3,12 +3,12 @@ spring:
     name: Fuck-iMoutai
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://MySQL-LTS:3306/fuck_moutai?timezone=Asia/Shanghai&connectionTimeZone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/fuck_moutai?timezone=Asia/Shanghai&connectionTimeZone=Asia/Shanghai
     username: hydrocarbon
     password: 1352467890
     hikari:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://MySQL-LTS:3306/fuck_moutai?timezone=Asia/Shanghai&connectionTimeZone=Asia/Shanghai
+      jdbc-url: jdbc:mysql://localhost:3306/fuck_moutai?timezone=Asia/Shanghai&connectionTimeZone=Asia/Shanghai
       username: hydrocarbon
       password: 1352467890
       auto-commit: true
@@ -21,7 +21,7 @@ spring:
       maximum-pool-size: 10
       health-check-properties:
         initialization-fail-timeout: 1
-      pool-name: HikariPool
+      pool-name: HikariPool-Local
   jpa:
     hibernate:
       ddl-auto: none

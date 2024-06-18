@@ -1,4 +1,4 @@
-package io.hydrocarbon.moutai.param.moutai.response;
+package io.hydrocarbon.moutai.param.response.moutai;
 
 import io.hydrocarbon.moutai.constant.Constants;
 import io.hydrocarbon.moutai.entity.moutai.MoutaiShop;
