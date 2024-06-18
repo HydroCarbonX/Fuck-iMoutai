@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: Fuck-iMoutai
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/fuck_moutai?timezone=Asia/Shanghai&connectionTimeZone=Asia/Shanghai
+    username: hydrocarbon
+    password: 1352467890
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:3306/fuck_moutai?timezone=Asia/Shanghai&connectionTimeZone=Asia/Shanghai
+      username: hydrocarbon
+      password: 1352467890
+      auto-commit: true
+      connection-timeout: 30000
+      idle-timeout: 600000
+      keepalive-time: 300000
+      max-lifetime: 1800000
+      connection-test-query: SELECT 1
+      minimum-idle: 3
+      maximum-pool-size: 10
+      health-check-properties:
+        initialization-fail-timeout: 1
+      pool-name: HikariPool-Local
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time-zone: GMT+8
+    show-sql: false
+    open-in-view: false
+  threads:
+    virtual:
+      enabled: true
+
+i-moutai:
+  resource:
+    shop-url-key: mtshops_pc
+    salt: 2af72f100c356273d46284f6fd1dfc08
+    aes-key: qbhajinldepmucsonaaaccgypwuvcjaa
+    aes-iv: 2018534749963515
+    app-version: 1.6.5
+logging:
+  file:
+    name: /var/log/fuck-imoutai.log
